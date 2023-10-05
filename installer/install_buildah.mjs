@@ -1,38 +1,41 @@
-import { progress } from "zx/experimental/progress";
+#!/usr/bin/env zx
+
+import { $ as $zx } from "zx";
+
+let $ = $zx; // Local reference which we can change in tests
+export const setMockShell = (mockShell) => {
+  $ = mockShell;
+};
 
 // Update the package lists.
 const updatePackageLists = async () => {
-  await zx("sudo apt update");
+  await $`sudo apt update`;
 };
 
 // Install the Software Properties package (if not installed).
 const installSoftwareProperties = async () => {
-  await zx("sudo apt install -y software-properties-common");
+  await $`sudo apt install -y software-properties-common`;
 };
 
 // Add the Kubic project repositories.
 const addKubicProjectRepositories = async () => {
-  await zx(
-    `sudo sh -c "echo 'deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Raspbian_10/ /' > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list"`
-  );
-  await zx(
-    "wget -nv https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/Raspbian_10/Release.key -O- | sudo apt-key add -"
-  );
+  await $`sudo sh -c "echo 'deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/Raspbian_10/ /' > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list"`;
+  await $`wget -nv https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable/Raspbian_10/Release.key -O- | sudo apt-key add -`;
 };
 
 // Update the package lists again.
 const updatePackageListsAgain = async () => {
-  await zx("sudo apt update");
+  await $`sudo apt update`;
 };
 
 // Install Buildah.
 const installBuildah = async () => {
-  await zx("sudo apt install -y buildah");
+  await $`sudo apt install -y buildah`;
 };
 
 // Verify the installation.
 const verifyInstallation = async () => {
-  await zx("buildah --version");
+  await $`buildah --version`;
 };
 
 const main = async () => {
@@ -67,17 +70,16 @@ const main = async () => {
   console.log("Installation verified.");
 };
 
-// Add a progress bar.
-const progressBar = progress({
-  total: 6,
-});
-
 main()
   .then(() => {
-    progressBar.done();
     console.log("Installation complete!");
   })
   .catch((error) => {
-    progressBar.abort();
     console.error("Installation failed:", error);
   });
+export {
+  updatePackageLists,
+  installSoftwareProperties,
+  addKubicProjectRepositories,
+  // ... any other functions you want to test
+};

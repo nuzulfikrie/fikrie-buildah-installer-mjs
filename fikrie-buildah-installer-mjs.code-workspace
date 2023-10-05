@@ -1,0 +1,19 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    //test
+    "terminal.integrated.shell.linux": "/bin/bash",
+    "terminal.integrated.shellArgs.linux": [
+      "-c",
+      "echo -e \"\\033]0;Terminal\\007\"; /bin/bash"
+    ]
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": []
+  }
+}
