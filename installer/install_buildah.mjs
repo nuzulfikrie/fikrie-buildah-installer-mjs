@@ -1,5 +1,7 @@
 #!/usr/bin/env zx
 
+// This script installs Buildah on a Raspberry Pi running Raspbian 10 (Buster).
+
 import { $ as $zx } from "zx";
 
 let $ = $zx; // Local reference which we can change in tests
